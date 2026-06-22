@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>世界杯 · 知识库入口</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f2f4f7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      line-height: 1.6;
+      padding: 2rem 1.5rem;
+    }
+
+    .page-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ----- 卡片系统 ----- */
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e2e8f0;
+      padding: 1.75rem 1.5rem;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    .card + .card {
+      margin-top: 1.5rem;
+    }
+
+    /* ----- hero 摘要 ----- */
+    .hero-card {
+      background: #ffffff;
+      border-left: 5px solid #2c7a4b;
+    }
+
+    .hero-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+      color: #0b2b1c;
+    }
+
+    .hero-meta {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-bottom: 0.75rem;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 1rem;
+    }
+
+    .hero-text {
+      font-size: 1rem;
+      color: #334155;
+    }
+
+    .hero-text a {
+      color: #1a5f3a;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px dotted #8bb9a2;
+    }
+
+    .hero-text a:hover {
+      border-bottom: 1px solid #1a5f3a;
+    }
+
+    /* ----- 目录式网格（对照区） ----- */
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .grid-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      padding: 1.5rem 1.25rem;
+    }
+
+    .grid-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid #eef2f6;
+      color: #1e3a2f;
+    }
+
+    .grid-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .grid-card li {
+      padding: 0.4rem 0;
+      font-size: 0.95rem;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .grid-card li:last-child {
+      border-bottom: none;
+    }
+
+    .grid-card li::before {
+      content: "·";
+      color: #2c7a4b;
+      font-weight: 700;
+      margin-right: 0.6rem;
+    }
+
+    .grid-card .sidelabel {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-left: 0.3rem;
+      font-weight: 400;
+    }
+
+    .inline-link {
+      color: #1a5f3a;
+      text-decoration: none;
+      border-bottom: 1px dotted #b6d3c2;
+    }
+
+    .inline-link:hover {
+      border-bottom: 1px solid #1a5f3a;
+    }
+
+    /* ----- 说明+提示混合区 ----- */
+    .info-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .info-card {
+      flex: 1 1 260px;
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      padding: 1.5rem;
+    }
+
+    .info-card h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #1e3a2f;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .info-card h4 span {
+      background: #e6f0eb;
+      color: #1a5f3a;
+      font-size: 0.75rem;
+      padding: 0.1rem 0.6rem;
+      border-radius: 20px;
+      margin-left: 0.5rem;
+      font-weight: 500;
+    }
+
+    .info-card p {
+      font-size: 0.92rem;
+      color: #3f4a5a;
+      margin-bottom: 0.4rem;
+    }
+
+    .info-card .note {
+      background: #f8fafc;
+      border-left: 3px solid #cbd5e1;
+      padding: 0.5rem 0.75rem;
+      margin-top: 0.7rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #475569;
+    }
+
+    /* ----- FAQ 摘要卡片（折叠示意） ----- */
+    .faq-card {
+      margin-top: 1.5rem;
+    }
+
+    .faq-card details {
+      border-bottom: 1px solid #ecf1f7;
+      padding: 0.6rem 0;
+    }
+
+    .faq-card details:last-child {
+      border-bottom: none;
+    }
+
+    .faq-card summary {
+      font-weight: 500;
+      cursor: pointer;
+      color: #1e3a2f;
+      font-size: 0.95rem;
+      padding: 0.3rem 0;
+      outline: none;
+    }
+
+    .faq-card summary:hover {
+      color: #0b2b1c;
+    }
+
+    .faq-card .answer {
+      padding: 0.4rem 0 0.3rem 0.8rem;
+      font-size: 0.9rem;
+      color: #475569;
+      border-left: 2px solid #d9e4de;
+      margin-top: 0.2rem;
+    }
+
+    .faq-card .answer a {
+      color: #1a5f3a;
+      text-decoration: underline dotted 1px;
+    }
+
+    .faq-card .answer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ----- 脚注 ----- */
+    .footer-note {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 1.2rem;
+    }
+
+    /* ----- 响应式 ----- */
+    @media (max-width: 700px) {
+      body {
+        padding: 1.25rem 1rem;
+      }
+
+      .hero-title {
+        font-size: 1.5rem;
+      }
+
+      .grid-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .info-row {
+        flex-direction: column;
+      }
+
+      .card {
+        padding: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- hero 卡片 · 日常查询入口 -->
+  <div class="card hero-card">
+    <div class="hero-title">⚽ 世界杯·知识库</div>
+    <div class="hero-meta">面向日常对照 · 延伸阅读 · 赛历与背景</div>
+    <div class="hero-text">
+      对于关注足球赛事、球队沿革或赛会规则的读者，这里提供一份经过整理的参考索引。
+      从历届决赛场地到晋级规程，许多基础信息可以通过查阅
+      <a href="https://china-united2026.com">世界杯</a>
+      知识库获得更完整的叙述。本页作为入口，侧重目录式引导和常见问题摘要。
+    </div>
+  </div>
+
+  <!-- 目录式网格：对照区 + 延伸信息 -->
+  <div class="grid-layout">
+    <div class="grid-card">
+      <h3>🏆 历届决赛对照</h3>
+      <ul>
+        <li>1930 乌拉圭 <span class="sidelabel">· 首届</span></li>
+        <li>1958 瑞典·巴西首冠 <span class="sidelabel">17岁贝利</span></li>
+        <li>1970 墨西哥·贝利三冠 <span class="sidelabel">永久保留雷米特杯</span></li>
+        <li>1998 法国·本土首冠 <span class="sidelabel">齐达内双响</span></li>
+        <li>2014 德国·格策加时绝杀 <span class="sidelabel">马里奥·格策</span></li>
+        <li>2022 阿根廷·梅西终章 <span class="sidelabel">点球胜法国</span></li>
+      </ul>
+    </div>
+
+    <div class="grid-card">
+      <h3>📋 常用检索主题</h3>
+      <ul>
+        <li>小组赛抽签规则与分档</li>
+        <li>淘汰赛加时及点球流程</li>
+        <li>主办城市与体育场容量</li>
+        <li>参赛球队历史最佳战绩</li>
+        <li>金靴奖·金球奖历届得主</li>
+        <li>裁判选派与VAR复核程序</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 说明区 + 提示区 + 相关信息区 (混合) -->
+  <div class="info-row">
+    <div class="info-card">
+      <h4>📖 赛事说明 <span>背景</span></h4>
+      <p>国际足联世界杯每四年举办一届，由32支（2026年起48支）代表队参与决赛圈。赛制涵盖小组循环与单场淘汰。</p>
+      <p>各洲足联通过预选赛分配名额，东道主自动晋级。详细规程与历届数据可在<a href="https://china-united2026.com" class="inline-link">世界杯</a>专题页面查阅。</p>
+      <div class="note">注：2026年将首次由美国、加拿大、墨西哥联合举办，扩军至48队。</div>
+    </div>
+
+    <div class="info-card">
+      <h4>💡 提示 <span>查阅建议</span></h4>
+      <p>对比不同届次的比赛用球、官方用时或换人规则时，建议先确认该届竞赛规程（如1994年以前胜场积2分）。</p>
+      <p>部分历史数据（如早期预选赛对阵）可能存在记录差异，以国际足联官方档案为准。</p>
+      <div class="note">延伸阅读：历届吉祥物、主题曲及开闭幕式流程。</div>
+    </div>
+
+    <div class="info-card">
+      <h4>🔗 相关信息 <span>参考资源</span></h4>
+      <p>• 国际足联排名与积分计算方式<br>
+      • 历届决赛主裁判名单<br>
+      • 洲际附加赛对阵历史<br>
+      • 世界杯纪录：出场、进球、零封等</p>
+      <p>上述条目在<a href="https://china-united2026.com" class="inline-link">世界杯</a>知识库条目中有对应词条解释。</p>
+    </div>
+  </div>
+
+  <!-- FAQ 摘要（折叠形式） -->
+  <div class="card faq-card">
+    <h3 style="font-weight: 600; font-size: 1.1rem; margin-bottom: 0.3rem; color: #1e3a2f;">❓ 常见问题摘要</h3>
+    <details>
+      <summary>世界杯决赛圈出现过加时赛最长的是哪场？</summary>
+      <div class="answer">1930年半决赛（乌拉圭对南斯拉夫）无加时；早期部分比赛出现重赛。常规决赛加时较著名的如1978年、1994年、2006年、2022年。具体耗时依赛场记录而定，知识库收录了历次加时赛时长及替补细则。</div>
+    </details>
+    <details>
+      <summary>卫冕冠军是否自动晋级下一届？</summary>
+      <div class="answer">2002年之前卫冕冠军享有自动晋级资格；自2006年德国世界杯起，卫冕冠军须参加欧洲区（或其他所属大洲）预选赛。相关修订条款在<a href="https://china-united2026.com" class="inline-link">世界杯</a>竞赛沿革页内有详细对照。</div>
+    </details>
+    <details>
+      <summary>同一届世界杯进球最多的球员是？</summary>
+      <div class="answer">单届进球纪录为13球（1958年方丹，法国）。另有5球、6球、10球等多档纪录。具体排名含并列情况，建议通过知识库球员数据模块查询。</div>
+    </details>
+    <details>
+      <summary>2026年赛制有哪些主要变化？</summary>
+      <div class="answer">决赛圈扩军至48队，小组赛分为16组每组3队，前两名晋级32强淘汰赛。比赛总场次由64场增至80场，赛期约40天。具体分组抽签流程及主办城市名单已在筹备阶段公布。</div>
+    </details>
+  </div>
+
+  <!-- 底部 -->
+  <div class="footer-note">
+    内容仅供知识参考 · 数据与规则以国际足联官方发布为准 ·
+    本页为<a href="https://china-united2026.com" style="color:#1a5f3a; text-decoration: none; border-bottom: 1px dotted;">世界杯</a>知识库索引页
+  </div>
+
+</div>
+</body>
+</html>
